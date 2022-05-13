@@ -1,28 +1,27 @@
-const port = 9000;
+// const db = require("./moviebooking/models");
+// db.mongoose
+//   .connect(db.url, {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true
+//   })
+//   .then(() => {
+//     console.log("Connected to the database!");
+
+//   })
+//   .catch(err => {
+//     console.log("Cannot connect to the database!", err);
+//     process.exit();
+//   }); 
+//core imports
 const http = require("http");
-const httpStatus = require("http-status-codes");
+//app imports
+const app = require("./app");
 
-const routeResponseMap = {
-  "/movies": "All Movies Data in JSON format from Mongo DB",
-  "/genres": "All Genres Data in JSON format from Mongo DB",
-  "/artists": "All Artists Data in JSON format from Mongo DB",
-};
+//port
+const PORT = process.env.PORT || 8085;
 
-const app = http.createServer((req, res) => {
-  let url = req.url;
-  if (routeResponseMap[url]) {
-    res.writeHead(httpStatus.StatusCodes.OK, {
-      "Content-Type": "text/html",
-    });
-    res.write(routeResponseMap[url]);
-    res.end();
-  } else {
-    res.writeHead(httpStatus.StatusCodes.NOT_FOUND, {
-      "Content-Type": "text/html",
-    });
-    res.write("Error: Page Not Found");
-    res.end();
-  }
-});
+const server = http.createServer(app); //create server
 
-app.listen(port)
+server.listen(PORT, () => {
+  console.log(`🚀 server listening on port ${PORT}`);
+}); 
